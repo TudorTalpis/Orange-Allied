@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    name: Frontend CI plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Future stack: React + Vite + TypeScript + Tailwind CSS + shadcn/ui.
+      # These are informative placeholders: frontend files do not exist yet.
+      - name: Planned TypeScript type-check
+        run: 'echo "Planned frontend check: TypeScript type-check"'
+
+      - name: Planned lint
+        run: 'echo "Planned frontend check: lint"'
+
+      - name: Planned Vitest and React Testing Library tests
+        run: 'echo "Planned frontend check: Vitest and React Testing Library tests"'
+
+      - name: Planned Vite build
+        run: 'echo "Planned frontend check: Vite build"'
+
+  backend:
+    name: Backend CI plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Future stack: Python + FastAPI + Pydantic.
+      # These are informative placeholders: backend files do not exist yet.
+      - name: Planned Python environment
+        run: 'echo "Planned backend check: configure Python environment and dependencies"'
+
+      - name: Planned lint
+        run: 'echo "Planned backend check: lint"'
+
+      - name: Planned Pytest tests
+        run: 'echo "Planned backend check: Pytest tests"'
+
+      - name: Planned FastAPI and Pydantic validation
+        run: 'echo "Planned backend check: FastAPI and Pydantic validation"'
+
+  database:
+    name: Database CI plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Future stack: PostgreSQL + SQL + pgvector.
+      - name: Planned PostgreSQL checks
+        run: 'echo "Planned database check: PostgreSQL and SQL checks"'
+
+      - name: Planned migrations and integration tests
+        run: 'echo "Planned database check: migrations and integration tests"'
+
+      - name: Planned pgvector checks
+        run: 'echo "Planned database check: pgvector checks"'
+
+  integration:
+    name: Integration CI plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Future DevOps stack: Docker + Docker Compose.
+      - name: Planned Docker Compose integration tests
+        run: 'echo "Planned integration check: Docker Compose integration tests"'
+
+      - name: Planned end-to-end tests
+        run: 'echo "Planned integration check: end-to-end tests"'
