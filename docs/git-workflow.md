@@ -60,3 +60,52 @@ Personal developer branch
 6. The `main` branch should contain only stable and tested code.
 7. Developers should synchronize their branches with `develop`
    when necessary to reduce merge conflicts.
+
+## Pull Request Process
+
+All changes intended for integration should be submitted through Pull Requests.
+
+### Personal Branch to Develop
+
+When a developer completes a task, they create a Pull Request from their personal branch into `develop`.
+
+Example:
+
+`dev-daniel` → `develop`
+
+The Pull Request should include:
+
+- a clear title
+- a short description of the changes
+- the related Jira issue key
+- testing information, when applicable
+
+Example title:
+
+`KAN-276 Configure pull request workflow`
+
+### Develop to Main
+
+Changes from `develop` should be merged into `main` only when they are stable and ready for release.
+
+Example:
+
+`develop` → `main`
+
+Before merging into `main`, the team should verify that:
+
+- required checks pass
+- important functionality has been tested
+- no known blocking issues remain
+- the Pull Request has been reviewed
+
+### Pull Request Rules
+
+1. Avoid direct commits to `main`.
+2. Use Pull Requests for integration into `develop`.
+3. Use Pull Requests for merging `develop` into `main`.
+4. Each Pull Request should be linked to a Jira issue where possible.
+5. Pull Requests should have a clear and descriptive title.
+6. Changes should be reviewed before important merges.
+7. Failed CI checks should be resolved before merging.
+8. Merge conflicts should be resolved before approval.
