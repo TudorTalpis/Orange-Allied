@@ -31,7 +31,6 @@ natural-language questions about their documents.
 - pgvector
 
 ### AI / Document Processing
-- OCR
 - LLM
 - Ollama
 - MCP
@@ -44,7 +43,6 @@ natural-language questions about their documents.
 
 - PDF and image upload
 - Batch document upload
-- OCR text extraction
 - AI document classification
 - Metadata extraction
 - Keyword search
