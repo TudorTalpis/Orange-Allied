@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  DocuAI design tokens                                              */
+/*  A dark, technical product surface built on a warm near-black and  */
+/*  a restrained burgundy accent (#95122C).                           */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo,
+    Consolas, monospace;
+
+  /* Neutral surfaces — warm blacks so burgundy sits naturally on them. */
+  --color-canvas: #0a0807;
+  --color-background: #0d0a09;
+  --color-surface: #131010;
+  --color-surface-raised: #191514;
+  --color-surface-overlay: #1d1817;
+  --color-foreground: #f4f1f0;
+  --color-muted: #1a1615;
+  --color-muted-foreground: #9b908d;
+  --color-subtle-foreground: #6f6663;
+  --color-border: #272120;
+  --color-border-strong: #362d2c;
+  --color-input: #211b1a;
+  --color-ring: #95122c;
+
+  /* Brand */
+  --color-primary: #95122c;
+  --color-primary-hover: #ac1533;
+  --color-primary-active: #7c0f25;
+  --color-primary-foreground: #fff5f7;
+  --color-primary-muted: #2a0f16;
+  --color-primary-subtle: #1b0c11;
+  --color-primary-border: #4a1522;
+  --color-brand-bright: #c3163a;
+  --color-brand-deep: #100c08;
+
+  /* Status */
+  --color-success: #3fbf7f;
+  --color-success-muted: #0f2119;
+  --color-success-border: #1d4433;
+  --color-warning: #e0a33a;
+  --color-warning-muted: #241a0c;
+  --color-warning-border: #4a3617;
+  --color-danger: #e5484d;
+  --color-danger-muted: #241112;
+  --color-danger-border: #4d1e20;
+  --color-info: #5b9df7;
+  --color-info-muted: #101a2b;
+  --color-info-border: #1e3252;
+
+  /* Data visualisation.
+     Burgundy-led categorical ramp, stepped for the dark chart surface
+     (OKLCH L 0.48-0.67) and validated for CVD separation and 3:1 contrast
+     against --color-surface. Slots are assigned in this fixed order and never
+     cycled; a seventh series folds into "Other". */
+  --color-chart-1: #c3163a;
+  --color-chart-2: #c98500;
+  --color-chart-3: #3987e5;
+  --color-chart-4: #199e70;
+  --color-chart-5: #9085e9;
+  --color-chart-6: #d55181;
+
+  /* Reserved status marks — never reused as a categorical slot. */
+  --color-chart-success: #199e70;
+  --color-chart-warning: #c98500;
+  --color-chart-info: #3987e5;
+  --color-chart-danger: #d6494b;
+  --color-chart-grid: #241e1d;
+
+  --radius-card: 0.875rem;
+
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-rise: rise 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-shimmer: shimmer 1.8s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+  --animate-typing: typing 1.2s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.55;
+      transform: scale(0.92);
+    }
+  }
+  @keyframes typing {
+    0%,
+    60%,
+    100% {
+      opacity: 0.25;
+      transform: translateY(0);
+    }
+    30% {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+  }
+}
+
+/* Radix-driven enter/exit animations, kept deliberately short. */
+@utility animate-overlay-in {
+  animation: fade-in 0.2s ease-out;
+}
+@utility animate-content-in {
+  animation: rise 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  /* Anchor navigation on the public page; the reduced-motion block below
+     turns this off for anyone who asked for less movement. */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible, brand-tinted focus for keyboard users on every interactive node. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-bright);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-primary) 55%, transparent);
+    color: var(--color-foreground);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+    border: 3px solid var(--color-background);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4a3f3d;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* The signature surface: a faint burgundy wash rising out of the black. */
+  .surface-gradient {
+    background-image: radial-gradient(
+        120% 80% at 0% 0%,
+        rgba(149, 18, 44, 0.16) 0%,
+        transparent 55%
+      ),
+      linear-gradient(180deg, var(--color-surface) 0%, var(--color-background) 100%);
+  }
+
+  .brand-gradient {
+    background-image: linear-gradient(
+      145deg,
+      var(--color-brand-bright) 0%,
+      var(--color-primary) 45%,
+      var(--color-brand-deep) 100%
+    );
+  }
+
+  .ai-glow {
+    box-shadow:
+      0 0 0 1px var(--color-primary-border),
+      0 18px 60px -28px rgba(195, 22, 58, 0.55);
+  }
+
+  .hairline {
+    border: 1px solid var(--color-border);
+  }
+
+  .text-gradient {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-foreground) 0%,
+      #e7b9c3 55%,
+      var(--color-brand-bright) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
