@@ -133,6 +133,25 @@ The system shall support local, cloud, and hybrid processing configurations.
 ### NFR-12 — Privacy
 The system shall allow configurations that minimize sending sensitive document data to external services.
 
+### NFR-13 — Asynchronous Document Processing
+
+Document processing must be performed asynchronously.
+
+The initial upload request should not wait for OCR, AI processing,
+text chunking, or embedding generation to complete.
+
+The system should expose document processing statuses such as:
+
+- `UPLOADED`
+- `QUEUED`
+- `PROCESSING`
+- `COMPLETED`
+- `FAILED`
+
+A queue and background worker mechanism should be used for long-running
+document processing tasks.
+
+The exact queue and worker technology is to be finalized.
 
 ## 3. Minimum Viable Product (MVP)
 
