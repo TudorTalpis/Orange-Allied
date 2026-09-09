@@ -465,47 +465,65 @@ Status: **To be implemented**
 
 ## 15. Authentication Architecture
 
-The final authentication contract between the frontend and backend has not
-yet been finalized.
+The backend uses FastAPI-managed JWT authentication.
 
-The team must select one consistent authentication approach.
+### Registration
 
-The currently considered options are:
+The frontend sends registration data to:
 
-### Option A — Supabase Auth
+`POST /auth/register`
 
-React  
-↓  
-Supabase Auth  
-↓  
-Access Token  
-↓  
-Authorization: Bearer token  
-↓  
-FastAPI validates the token  
-↓  
-Authenticated user
+The backend:
 
-### Option B — FastAPI-managed JWT
+- checks whether the email is already registered
+- hashes the password
+- creates the user
+- returns the created user
 
-React  
-↓  
-FastAPI authentication endpoint  
-↓  
-JWT issued by backend  
-↓  
-Authorization: Bearer token  
-↓  
-FastAPI validates JWT  
-↓  
-Authenticated user
+### Login
+
+The frontend sends login credentials to:
+
+`POST /auth/login`
+
+The backend:
+
+- verifies the email and password
+- generates a JWT access token
+- returns the token to the frontend
+
+Example response:
+
+```json
+{
+  "access_token": "<jwt-token>"
+}
+```
+
+### Protected Requests
+
+The frontend must include the JWT access token when calling protected backend routes.
+
+HTTP header:
+
+`Authorization: Bearer <access_token>`
+
+### JWT Configuration
+
+The backend uses the following environment variables:
+
+- `JWT_SECRET_KEY`
+- `JWT_ALGORITHM`
+- `ACCESS_TOKEN_EXPIRE_MINUTES`
+
+The JWT payload contains:
+
+- `sub` — user identifier
+- `exp` — token expiration time
 
 Frontend and backend must use the same authentication contract.
 
-The application should not implement incompatible authentication flows on
-the frontend and backend.
-
-Status: **Team decision required / To be implemented**
+Status: **Backend implemented / frontend integration required**
 
 ---
 
@@ -668,7 +686,7 @@ integrated:
 
 - asynchronous processing queue
 - background processing worker
-- final authentication contract between frontend and backend
+- frontend integration with the FastAPI-managed JWT authentication flow
 - Google Cloud Vision / Document AI integration
 - Supabase Storage integration
 - Supabase PostgreSQL integration
