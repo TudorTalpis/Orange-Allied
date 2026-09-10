@@ -9,11 +9,6 @@ from app.schemas.user import UserRead
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-@router.get("/me", response_model=UserRead)
-def read_current_user(current_user: User = Depends(get_current_user)) -> User:
-    return current_user
-
-
 @router.get("/{user_id}", response_model=UserRead)
 def read_user_by_id(
     user_id: uuid.UUID, current_user: User = Depends(get_current_user)

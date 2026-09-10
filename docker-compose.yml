@@ -4,7 +4,7 @@ services:
     container_name: orange_allied_db
     restart: unless-stopped
     env_file:
-      - ./backend/.env
+      - ./.env
     ports:
       - "5432:5432"
     volumes:
