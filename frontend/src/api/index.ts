@@ -1,0 +1,12 @@
+export { ApiError, http, tokenStore } from "./client";
+export { authApi } from "./auth";
+export { documentsApi } from "./documents";
+export { categoriesApi } from "./categories";
+export { processingApi } from "./processing";
+export { searchApi } from "./search";
+export { chatApi } from "./chat";
+export { settingsApi } from "./settings";
+export { notificationsApi } from "./notifications";
+export { dashboardApi } from "./dashboard";
+export { uploadsApi, validateFile } from "./uploads";
+export type { UploadHandlers } from "./uploads";

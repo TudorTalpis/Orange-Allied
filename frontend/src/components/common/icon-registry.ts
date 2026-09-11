@@ -1,0 +1,72 @@
+import {
+  Banknote,
+  Briefcase,
+  Car,
+  CircleCheckBig,
+  Cpu,
+  Database,
+  FileSignature,
+  FileText,
+  Files,
+  Folder,
+  FolderTree,
+  Gavel,
+  GraduationCap,
+  HardDrive,
+  HeartPulse,
+  Home,
+  Landmark,
+  LoaderCircle,
+  Mail,
+  Package,
+  Plane,
+  ReceiptText,
+  ScanLine,
+  Search,
+  ShieldCheck,
+  Sigma,
+  TrendingUp,
+  UserRound,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+
+/**
+ * Icons are referenced by name in data (categories, stats, AI tools) so the
+ * backend can choose an icon without the frontend shipping a dynamic import.
+ */
+const registry: Record<string, LucideIcon> = {
+  banknote: Banknote,
+  briefcase: Briefcase,
+  car: Car,
+  "circle-check-big": CircleCheckBig,
+  cpu: Cpu,
+  database: Database,
+  "file-signature": FileSignature,
+  "file-text": FileText,
+  files: Files,
+  folder: Folder,
+  "folder-tree": FolderTree,
+  gavel: Gavel,
+  "graduation-cap": GraduationCap,
+  "hard-drive": HardDrive,
+  "heart-pulse": HeartPulse,
+  home: Home,
+  landmark: Landmark,
+  "loader-circle": LoaderCircle,
+  mail: Mail,
+  package: Package,
+  plane: Plane,
+  "receipt-text": ReceiptText,
+  "scan-line": ScanLine,
+  search: Search,
+  "shield-check": ShieldCheck,
+  sigma: Sigma,
+  "trending-up": TrendingUp,
+  "user-round": UserRound,
+  users: Users,
+};
+
+export function resolveIcon(name: string | undefined): LucideIcon {
+  return (name && registry[name]) || Folder;
+}
