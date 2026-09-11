@@ -1,0 +1,85 @@
+# Development setup: sources are bind-mounted and the API runs with --reload.
+# A deployment configuration will need its own compose file without those.
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: orange_allied_db
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: orange_allied_backend
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      # Inside the compose network the database is reached by service name.
+      # .env keeps localhost so the same file also works when running the
+      # backend directly on the host with a virtualenv.
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # TODO: services below are planned but NOT IMPLEMENTED yet. They are kept
+  # commented out so `docker compose up` stays working; uncomment each one once
+  # the corresponding code exists.
+  # ---------------------------------------------------------------------------
+
+  # TODO(frontend): waiting for the React/Vite app to be merged into this branch.
+  # frontend:
+  #   build: ./frontend
+  #   container_name: orange_allied_frontend
+  #   restart: unless-stopped
+  #   env_file:
+  #     - ./.env
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   command: npm run dev -- --host 0.0.0.0
+  #   depends_on:
+  #     - backend
+
+  # TODO(ocr): Google Cloud Vision / Document AI worker. No code yet.
+  # ocr:
+  #   build: ./ocr
+  #   container_name: orange_allied_ocr
+  #   restart: unless-stopped
+  #   env_file:
+  #     - ./.env
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+
+  # TODO(mcp): MCP server exposing document search/retrieval to AI clients.
+  # No code yet.
+  # mcp:
+  #   build: ./mcp
+  #   container_name: orange_allied_mcp
+  #   restart: unless-stopped
+  #   env_file:
+  #     - ./.env
+  #   depends_on:
+  #     - backend
+
+volumes:
+  db_data:

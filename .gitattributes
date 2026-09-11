@@ -1,0 +1,5 @@
+# Shell scripts must keep LF endings: a CRLF entrypoint breaks inside Linux
+# containers with a confusing "no such file or directory" error.
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.yml text eol=lf
