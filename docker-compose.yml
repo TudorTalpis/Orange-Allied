@@ -1,3 +1,5 @@
+# Development setup: sources are bind-mounted and the API runs with --reload.
+# A deployment configuration will need its own compose file without those.
 services:
   db:
     image: pgvector/pgvector:pg16

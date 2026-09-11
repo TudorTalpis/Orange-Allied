@@ -53,6 +53,69 @@ natural-language questions about their documents.
 - Document references
 - Local and cloud AI support
 
+## Running the project
+
+Requires Docker Desktop.
+
+```bash
+cp .env.example .env
+# Generate a signing key and put it in .env as JWT_SECRET_KEY:
+python -c "import secrets; print(secrets.token_hex(32))"
+docker compose up -d
+```
+
+The backend refuses to start without a `JWT_SECRET_KEY` of at least 32
+characters — a weak key would let anyone forge access tokens.
+
+This starts PostgreSQL (with pgvector) and the backend. Database migrations run
+automatically when the backend container starts.
+
+- API: http://localhost:8000
+- Interactive API docs: http://localhost:8000/docs
+- Health check: http://localhost:8000/health
+
+```bash
+docker compose logs -f backend   # follow logs
+docker compose down              # stop (data is kept)
+```
+
+### Running the backend without Docker
+
+The database still comes from Docker; only the API runs locally.
+
+```bash
+docker compose up -d db
+cd backend
+python -m venv venv
+venv/Scripts/activate            # Windows; use: source venv/bin/activate
+pip install -r requirements.txt
+alembic upgrade head
+uvicorn main:app --reload
+```
+
+### Tests
+
+The backend tests need PostgreSQL running; they use a separate
+`orange_allied_test` database, so development data is left alone.
+
+```bash
+docker compose up -d db
+cd backend
+python -m pytest
+```
+
+### Database migrations
+
+After changing a model, create and apply a migration:
+
+```bash
+cd backend
+alembic revision --autogenerate -m "describe the change"
+alembic upgrade head
+```
+
+Inside Docker: `docker compose exec backend alembic upgrade head`.
+
 ## Project Structure
 
 - `frontend/` – React + TypeScript frontend

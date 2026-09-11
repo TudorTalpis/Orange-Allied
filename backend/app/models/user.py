@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, DateTime, String, func
+from sqlalchemy import Boolean, DateTime, Integer, String, func
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -28,3 +28,16 @@ class User(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
     )
     last_active_at: Mapped[object | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    # Logging out sets this to the current time: tokens issued earlier stop
+    # being accepted, which is how stateless JWTs are revoked without keeping a
+    # list of every token ever issued.
+    tokens_valid_from: Mapped[object | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+
+    # Brute-force protection for the login endpoint.
+    failed_login_attempts: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default="0"
+    )
+    locked_until: Mapped[object | None] = mapped_column(DateTime(timezone=True), nullable=True)
